@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Header from '../Header';
 import PostsList from '../PostsList';
@@ -8,6 +8,20 @@ export default function Layout({
   onToggleTheme,
   selectedTheme
 }) {
+
+  // useEffect(() => {
+  //   console.debug({
+  //     selectedTheme
+  //   });
+  //   // Executa apenas uma vez
+  //   // componentDidMount
+  //   return () => {
+  //     console.log('Layout unmounted');
+  //     // Executa quando o componente é desmontado
+  //     // componentWillUnmount
+  //   };
+  // }, []);
+
   return (
     <>
       <Header 
