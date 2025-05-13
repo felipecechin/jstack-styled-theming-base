@@ -6,18 +6,18 @@ import Layout from './components/Layout';
 
 import themes from './styles/themes'
 
-function App(){
-  const [theme, setTheme] = useState('dark');
+// function App(){
+//   const [theme, setTheme] = useState('dark');
 
-  let firstRender = useRef(true);
+//   let firstRender = useRef(true);
 
-  const currentTheme = useMemo(() => {
-    return themes[theme] || themes.dark;
-  }, [theme]);
+//   const currentTheme = useMemo(() => {
+//     return themes[theme] || themes.dark;
+//   }, [theme]);
 
-  function handleToggleTheme() {
-    setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
-  }
+//   function handleToggleTheme() {
+//     setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'));
+//   }
 
   // Executa a cada render
   // useEffect(() => {
@@ -49,31 +49,61 @@ function App(){
   //   }
   // }, [theme]);
 
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+  // useEffect(() => {
+  //   if (firstRender.current) {
+  //     firstRender.current = false;
+  //     return;
+  //   }
 
-    console.debug('Theme changed to:', theme);
-  }, [theme])
+  //   console.debug('Theme changed to:', theme);
+  // }, [theme])
 
-  return (
-    <ThemeProvider theme={currentTheme}>
-      <GlobalStyle />
-      <button onClick={handleToggleTheme}>
-        Toggle theme
-      </button>
-      {theme === 'dark' && (
+//   return (
+//     <ThemeProvider theme={currentTheme}>
+//       <GlobalStyle />
+//       <button onClick={handleToggleTheme}>
+//         Toggle theme
+//       </button>
+//       {theme === 'dark' && (
+//         <Layout 
+//           onToggleTheme={
+//             handleToggleTheme
+//           }
+//           selectedTheme={theme}
+//         />
+//       )}
+//     </ThemeProvider>
+//   );
+// };
+
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      theme: 'dark',
+    };
+  }
+
+  render() {
+    const { theme } = this.state;
+
+    return (
+      <ThemeProvider theme={themes[theme] || themes.dark}>
+        <GlobalStyle />
         <Layout 
           onToggleTheme={
-            handleToggleTheme
+            // a função setState não sobrescreve todo o estado, apenas atualiza a propriedade
+            // o que é passado para o setState é um objeto
+            () => this.setState((prevState) => ({
+              theme: prevState.theme === 'dark' ? 'light' : 'dark',
+            }))
           }
           selectedTheme={theme}
         />
-      )}
-    </ThemeProvider>
-  );
-};
+      </ThemeProvider>
+    );
+  }
+}
 
 export default App;
