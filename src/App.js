@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { Component } from 'react';
 import { ThemeProvider  } from 'styled-components';
 
 import GlobalStyle from './styles/global';
@@ -78,11 +78,18 @@ import themes from './styles/themes'
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      theme: 'dark',
-    };
+  state = {
+    theme: 'dark',
+    oiTudoBem: true
+  }
+
+  handleToggleTheme = () => {
+    // Função para forçar a renderização do componente
+    // this.forceUpdate();
+
+    this.setState((prevState) => ({
+      theme: prevState.theme === 'dark' ? 'light' : 'dark',
+    }));
   }
 
   render() {
@@ -93,11 +100,7 @@ class App extends Component {
         <GlobalStyle />
         <Layout 
           onToggleTheme={
-            // a função setState não sobrescreve todo o estado, apenas atualiza a propriedade
-            // o que é passado para o setState é um objeto
-            () => this.setState((prevState) => ({
-              theme: prevState.theme === 'dark' ? 'light' : 'dark',
-            }))
+            this.handleToggleTheme
           }
           selectedTheme={theme}
         />
