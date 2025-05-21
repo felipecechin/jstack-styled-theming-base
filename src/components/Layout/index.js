@@ -4,35 +4,26 @@ import Header from '../Header';
 import PostsList from '../PostsList';
 import Footer from '../Footer';
 
-export default function Layout({
-  onToggleTheme,
-  selectedTheme
-}) {
+export default class Layout extends React.Component {
+  componentDidMount() {
+    document.addEventListener('scroll', this.handleScroll);
+  }
 
-  // useEffect(() => {
-  //   console.debug({
-  //     selectedTheme
-  //   });
-  //   // Executa apenas uma vez
-  //   // componentDidMount
-  //   return () => {
-  //     console.log('Layout unmounted');
-  //     // Executa quando o componente é desmontado
-  //     // componentWillUnmount
-  //   };
-  // }, []);
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.handleScroll);
+  }
 
-  return (
-    <>
-      <Header 
-        onToggleTheme={onToggleTheme}
-        selectedTheme={selectedTheme}
-      />
-      <PostsList />
-      <Footer 
-        onToggleTheme={onToggleTheme}
-        selectedTheme={selectedTheme}
-      />
-    </>
-  );
+  handleScroll = () => {
+    console.log('Scrolling...');
+  }
+
+  render() {
+    return (
+      <>
+        <Header />
+        <PostsList />
+        <Footer />
+      </>
+    );
+  }
 }
